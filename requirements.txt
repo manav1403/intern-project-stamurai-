@@ -1,0 +1,8 @@
+Django==3.0.0
+pillow
+flake8
+django-allauth
+django-ckeditor
+django-widget_tweaks
+sendgrid
+xlwt

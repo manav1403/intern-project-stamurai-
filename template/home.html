@@ -1,0 +1,210 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Display</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--===============================================================================================-->
+    <link rel="icon" type="image/png" href="{% static 'images/icons/favicon.ico' %}"/>
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static 'fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static 'vendor/animate/animate.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static 'vendor/css-hamburgers/hamburgers.min.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static 'vendor/select2/select2.min.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/util.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+    <!--===============================================================================================-->
+</head>
+<style>
+  span{
+    padding:4px;
+  }
+</style>
+
+<body>
+
+<div class="limiter">
+    <div class="container-login100" style="background: #000000;
+        background: -webkit-linear-gradient(-135deg, #333333, #000000);
+        background: -o-linear-gradient(-135deg, #333333, #000000);
+        background: -moz-linear-gradient(-135deg, #333333, #000000);
+        background: linear-gradient(-135deg, #333333, #000000);">
+<h1 style="padding:50px;color:#fcf340;">Task Manager
+    <br><a href="./register"><div class="btn btn-primary rounded"style="margin:10px" id ="addb">+ Add Task</div></a>
+</h1>
+<div style="background: white; padding:50px 20px;width:70%" id="data-holder">
+<table class="table">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">Title</th>
+      <th scope="col">Date</th>
+      <th scope="col" style="min-width: 110px;">Priority</th>
+      <th scope="col">Discription</th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody id ="table-body">
+    {% for i in data %}
+    <tr class = "data d{{i.id}}">
+      <td>{{i.title}}</td>
+      <td>{{i.date}}</td>
+      <td>{{i.priority}}</td>
+      <td>{{i.discription}}</td>
+      <td>
+        <a><span class = "edit" id ="{{i.id}}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></span></a>
+        <a><span class = "delete" id ="{{i.id}}"><i class="fa fa-trash" aria-hidden="true"></i></span></a>
+      </td>
+    </tr>
+    <tr class = "edata e{{i.id}}">
+      <form id ="f{{i.id}}">
+
+      <input type="hidden" value="{{i.id}}" name="id">
+      <td><input value="{{i.title}}" name="title" type="text"></td>
+      <td><input name="date" type="date"><br>({{i.date}}))</td>
+      <td><select value="{{i.priority}}" name="priority" style="border-radius: 50%;">
+        <option>High</option>
+        <option>Medium</option>
+        <option>Low</option>
+      </select></td>
+      <td><input value="{{i.discription}}" name="discription" type="text"></td>
+    </form>
+      <td>
+         <a><span class = "save" id ={{i.id}}><i class="fa fa-floppy-o" aria-hidden="true"></i></span></a>
+         <a><span class = "cancel" id ={{i.id}}><i class="fa fa-times" aria-hidden="true"></i></span></a>
+      </td>
+    </tr>
+
+    {% endfor %}
+  </tbody>
+  </table>
+  <nav aria-label="Page navigation example">
+  <ul class="pagination justify-content-center" id = "items">
+    
+  </ul>
+</nav>
+</div>      
+<div style="position: absolute;left:10px;bottom:10px;padding:5px" id ="update_pop">
+
+ </div>
+</div>
+</div>
+
+<script src="{% static 'vendor/jquery/jquery-3.2.1.min.js' %}"></script>
+<!--===============================================================================================-->
+<script src="{% static 'js/main.js' %}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.0.2/anime.min.js"></script>
+<script>
+var num = {{num}};
+var number={{number}};
+var update_id={{up}};
+var curr_pos;
+function dbar(){
+ var i;
+ $("#items").html('<li class="page-item disabled" id = "prev"><a class="page-link" href="#">Previous</a></li>');
+ for (i=num;i<= number;i=i+num){
+  $("#items").html($("#items").html()+'<li class="page-item" id ="'+(i/num)+'"><a class="page-link" href="#">'+(i/num)+'</a></li>');
+   }
+  $("#items").html($("#items").html()+'<li class="page-item" id = "next"><a class="page-link" href="#">Next</a> </li>');
+}
+function display(t){
+    var i;
+    if(t=="next"){
+        t=parseInt(curr_pos)+1;
+    }
+    if(t=="prev"){
+        t=curr_pos-1;
+    }
+    if(t==number/num){
+        $("#prev").removeClass("disabled");
+        $("#next").addClass("disabled");
+    }
+    else if(t==1){
+        $("#prev").addClass("disabled");
+        $("#next").removeClass("disabled");
+    }
+    else{
+        $("#prev").removeClass("disabled");
+        $("#next").removeClass("disabled");
+    }
+    for (i=1;i<=number;i++){
+         $("."+i).hide();}
+    for (i=((t-1)*num)+1;i<=(t)*num;i++){$("."+i).show();}
+    $("#id").attr("tabindex",-1);
+    curr_pos=t
+}
+function change(){
+ display(1);
+ dbar();
+ anime({
+   targets: '#data-holder',
+   rotateY:[180,360],
+   opacity:[0,1],
+   duration:10000,
+ })
+ $('.page-item').on('click', function(){
+    display(this.id)});
+$(".cancel").on("click", function(){$(".e"+this.id).hide();$(".d"+this.id).show();});
+$(".edit").on("click", function(){$(".e"+this.id).show();$(".d"+this.id).hide();});
+$(".p").on("click", function(){$('.p'+this.id).hide();});
+$(".save").on("click", function(){
+  var sdata= {}
+  $(".e"+this.id+" input").each(function(){
+    sdata[this.name]=this.value;
+  });
+  $(".e"+this.id+" select").each(function(){
+    sdata[this.name]=this.value;
+  });
+  $.ajax({
+    type: "GET",
+    data : sdata,
+    url: '/edit' 
+  }).done(function(){update();});
+});
+$(".delete").on("click", function(){
+  var sdata= {}
+  $(".e"+this.id+" input").each(function(){
+    sdata[this.name]=this.value;
+  });
+  $.ajax({
+    type: "GET",
+    data : sdata,
+    url: '/delete' 
+  }).done(function(){update();});
+})
+$(".edata").hide();
+}
+function update() {
+  $.ajax({
+    type: "GET",
+    data: {'up':update_id},
+    url: '/update'
+  }).done(function(data){if(data!='no update'){
+    console.log(data["upd"]);
+    $("#table-body").html(data["data"]);
+    $("#update_pop").html($("#update_pop").html()+data["upd"]);
+    update_id=data["r_up"];
+    number=data["number"];
+    $(".edata").hide();
+    change();
+  }
+  });
+}
+setInterval(() => {
+                update();
+                
+            }, 2000);
+change();
+
+</script>
+</body>
+
+</html>

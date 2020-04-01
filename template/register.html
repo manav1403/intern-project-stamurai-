@@ -1,0 +1,130 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Sign Up</title>
+    <meta charset="UTF-8">
+    <script></script>
+    <style>
+
+    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--===============================================================================================-->
+    <link rel="icon" type="image/png" href="{% static 'images/icons/favicon.ico' %}" />
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static 'fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static 'vendor/animate/animate.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static 'vendor/css-hamburgers/hamburgers.min.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static 'vendor/select2/select2.min.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/util.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+    <!--===============================================================================================-->
+</head>
+
+<body>
+
+    <div class="limiter">
+        <div class="container-login100" style="background: #000000;
+  background: -webkit-linear-gradient(-135deg, #333333, #000000);
+  background: -o-linear-gradient(-135deg, #333333, #000000);
+  background: -moz-linear-gradient(-135deg, #333333, #000000);
+  background: linear-gradient(-135deg, #333333, #000000);">
+            <div class="wrap-login100" style="background: white position:relative;">
+
+                <div class="login100-pic js-tilt" data-tilt>
+                    <img src="{% static 're.png' %}" alt="IMG">
+                </div>
+
+                <form class="login100-form validate-form " method="post" id="login">
+                    <span class="login100-form-title">
+                        ADD TASK
+                    </span>
+
+
+
+                    {% csrf_token %}
+                    {% for field in form %}
+
+                    <div class="wrap-input100" style="position:relative;">
+                        {#              {{ field.label }}: {{field}}#}
+                        {% if field.name != 'priority' %}
+                        <input class="input100" type="{{ field.field.widget.input_type }}"
+                            value="{% if field.value != NULL %}{{ field.value }}{% endif %}" name="{{ field.name }}"
+                            placeholder="{{ field.label }}*">
+                        {% else %}
+                          {{field}}     
+                        {% endif %}
+                        <span class="focus-input100"></span>
+                        <span class="symbol-input100">
+                            <i class="{{ field.field.widget.attrs.icon_name }}" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    {% for error in field.errors %}
+                    <div class="alert alert-danger">
+                        <strong>{{ error|escape }}</strong>
+                    </div>
+                    {% endfor %}
+
+                    {% for error in form.non_field_errors %}
+                    <div class="alert alert-danger">
+                        <strong>{{ error|escape }}</strong>
+                    </div>
+                    {% endfor %}
+
+                    {% endfor %}
+
+                    {% if messages %}
+                    {% for message in messages %}
+                    {% if 'register-success' in message.tags %}
+                    <div class="form-header green mb-4">{{ message }}</div>
+                    {% endif %}
+                    {% endfor %}
+                    {% endif %}
+
+                    <div class="container-login100-form-btn">
+                        <button class="login100-form-btn">
+                            ADD
+                        </button>
+                    </div>
+                    <div class="text-center p-t-136">
+                        
+                    </div>
+                </form>
+                
+                    </button>
+                </a>
+            </div>
+        </div>
+    </div>
+
+
+    <!--===============================================================================================-->
+    <script src="{% static 'vendor/jquery/jquery-3.2.1.min.js' %}"></script>
+    <!--===============================================================================================-->
+    <script src="{% static 'vendor/bootstrap/js/popper.js' %}"></script>
+    <script src="{% static 'vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+    <!--===============================================================================================-->
+    <script src="{% static 'vendor/select2/select2.min.js' %}"></script>
+    <!--===============================================================================================-->
+    <script src="{% static 'vendor/tilt/tilt.jquery.min.js' %}"></script>
+    <script>
+        $('.js-tilt').tilt({
+            scale: 1.1
+        })
+        $('select').addClass('input100')
+        $('option').addClass('input100')
+    </script>
+    <!--===============================================================================================-->
+    <script src="{% static 'js/main.js' %}"></script>
+
+</body>
+
+</html>
