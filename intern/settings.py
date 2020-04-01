@@ -25,7 +25,7 @@ SECRET_KEY = 'h1(9$np9^3da59vv8-bk2c2nus@@g$=$cs+fvh2e1(xj0c57ro'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['stamurai.herokuapp.com','127.0.0.1']
 
 
 # Application definition
