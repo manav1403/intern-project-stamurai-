@@ -11,7 +11,7 @@ Procedure:
 - Install [python](https://www.python.org/downloads/) in your environment(pre-installed on Ubuntu).
 - Navigate to the cloned repository.
     ```
-    cd <project_directory_name>     # varchas_iitj
+    cd <project_directory_name>     # intern
     ```
 - Install `pipenv` for dependency management
     ```
