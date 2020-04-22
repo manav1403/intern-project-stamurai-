@@ -6,4 +6,4 @@ django-ckeditor
 django-widget_tweaks
 sendgrid
 xlwt
-gunicorn==19.0.0
+gunicorn==19.5.0
